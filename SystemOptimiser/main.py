@@ -4,20 +4,24 @@ sys.dont_write_bytecode = 1
 from dotenv import load_dotenv
 from fetcher import *
 
-def main():
+def main() -> None:
     load_dotenv()
-    
-    dirs = {} 
-    for i in os.listdir(Fetcher.TargetDir):
-        d = Fetcher.TargetDir+i+"\\History"
-        if (os.path.exists(d)): 
-            dirs[i] = d
 
-    if not os.path.exists(Fetcher.Out): 
-        os.mkdir(Fetcher.Out)
+    if len(sys.argv)>1 and sys.argv[1]:
+        Fetcher.Notify = True
+    else:
+        dirs = {} 
+        for i in os.listdir(Fetcher.TargetDir):
+            d = Fetcher.TargetDir+i+"\\History"
+            if (os.path.exists(d)): 
+                dirs[i] = d
 
-    for i in dirs:
-        shutil.copy(dirs[i], f"{Fetcher.Out}{i}")
+        if not os.path.exists(Fetcher.Out): 
+            os.mkdir(Fetcher.Out)
+
+        for i in dirs:
+            shutil.copy(dirs[i], f"{Fetcher.Out}{i}")
+  
     Fetcher.Run()
 
 if __name__=="__main__":

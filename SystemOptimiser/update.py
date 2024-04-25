@@ -5,7 +5,7 @@ dir = os.path.dirname(os.path.abspath(__file__))
 with open(f"{dir}\\name.txt") as f:
     CurrentName = f.read().strip()
 
-def main():
+def main() -> None:
     try:
         NewName = sys.argv[1]    
     except:

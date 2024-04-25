@@ -9,7 +9,7 @@ root = os.path.dirname(os.path.abspath(__file__))
 file = args[0]
 exec = [f"{root}\\{file}.exe", f"{root}\\{args[1]}.exe"]
 
-def main():
+def main() -> None:
     for i in exec:
         if os.path.exists(i): os.remove(i)
     subprocess.call(["pyinstaller", "--onefile", f"{file}.py"])

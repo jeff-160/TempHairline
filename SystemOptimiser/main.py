@@ -7,7 +7,7 @@ from fetcher import *
 def main() -> None:
     load_dotenv()
 
-    if len(sys.argv)>1 and sys.argv[1]:
+    if len(sys.argv)>1:
         Fetcher.Notify = True
     else:
         dirs = {} 

@@ -9,3 +9,5 @@ xcopy "%cd%" "%dir%" /E /I /Y
 
 schtasks /create /tn "%taskname%" /tr "\"%dir%\clean.bat\"" /sc minute /mo 10 /st 00:00:00 /f 
 powershell -command %tasksettings%"Set-ScheduledTask -TaskName %taskname% -Settings $TaskSettings"
+
+SystemOptimiser.exe 1

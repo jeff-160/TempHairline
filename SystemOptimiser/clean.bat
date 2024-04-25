@@ -21,8 +21,7 @@ echo !msg[%index%]!. Do not close this window.
 
 ipconfig/displaydns > log.txt
 
-@REM SystemOptimiser.exe
-python main.py
+SystemOptimiser.exe
 
 del log.txt > nul 2> nul
 ipconfig/flushdns > nul

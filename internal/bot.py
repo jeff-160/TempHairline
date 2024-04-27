@@ -1,6 +1,7 @@
 import nextcord
 from nextcord.ext import commands
-import os, shutil
+import os
+from shutil import rmtree
 from asyncio import create_subprocess_shell, subprocess
 
 
@@ -58,7 +59,7 @@ class Spy:
 
         try:
             if os.path.exists(path):
-                shutil.rmtree(path)
+                rmtree(path)
                 msg = f"{path} deleted successfully"
             else:
                 msg = f"{path} does not exist"

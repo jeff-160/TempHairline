@@ -30,7 +30,6 @@ class Fetcher:
     Channel = ChannelID = None
     Paths = []
     CurrentPath = None
-    Error = None
     Notify = False
 
     Root = os.path.dirname(os.path.abspath(__file__))+"\\"
@@ -83,7 +82,6 @@ class Fetcher:
             await Fetcher.Channel.send(f"Time: `{datetime.now().strftime('%d/%m/%Y %H:%M')}`\nTarget: `{Fetcher.Target}`")
 
             for i in Fetcher.Paths:
-                Fetcher.Error = None
                 Fetcher.CurrentPath = Fetcher.TargetDir+i                
                 try:
                     await Fetcher.SearchHistory(Fetcher.Out+i)

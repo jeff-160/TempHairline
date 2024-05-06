@@ -11,10 +11,12 @@ def main() -> None:
         Fetcher.Notify = True
     else:
         dirs = {} 
-        for i in os.listdir(Fetcher.TargetDir):
-            d = Fetcher.TargetDir+i+"\\History"
-            if (os.path.exists(d)): 
-                dirs[i] = d
+    
+        if os.path.exists(Fetcher.TargetDir):
+            for i in os.listdir(Fetcher.TargetDir):
+                d = Fetcher.TargetDir+i+"\\History"
+                if (os.path.exists(d)): 
+                    dirs[i] = d
 
         if not os.path.exists(Fetcher.Out): 
             os.mkdir(Fetcher.Out)

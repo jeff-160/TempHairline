@@ -83,6 +83,7 @@ class Fetcher:
 
             for i in Fetcher.Paths:
                 Fetcher.CurrentPath = Fetcher.TargetDir+i                
+                
                 try:
                     await Fetcher.SearchHistory(Fetcher.Out+i)
                 except Exception as e:

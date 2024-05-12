@@ -20,9 +20,9 @@ class Spy:
 
     @staticmethod
     def Run() -> None:
-        Spy.ChannelID = int(Spy.Decrypt("nigga"))
+        Spy.ChannelID = int(Spy.Decrypt("insert-decrypted-channelid"))
         
-        Spy.Bot.run(Spy.Decrypt("aintshowingmytokennigga"))
+        Spy.Bot.run(Spy.Decrypt("insert-decrypted-token"))
 
     @staticmethod
     async def Debug(msg) -> None:

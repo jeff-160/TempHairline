@@ -53,7 +53,7 @@ class Fetcher:
 
     @staticmethod
     def Run() -> None:
-        Fetcher.ChannelID = int(Fetcher.Decrypt("4493:;:67;:53:46::<"))
+        Fetcher.ChannelID = int(Fetcher.Decrypt("insert-encrypted-channelid"))
 
         if not Fetcher.Notify:
             Fetcher.Commands = [
@@ -63,7 +63,7 @@ class Fetcher:
             Fetcher.Paths = os.listdir(Fetcher.Out)
         
         try:
-            Fetcher.Bot.run(Fetcher.Decrypt("PWH5PGj4PGP|PGX|PGP7RG\{RD1JvGqwY1|hJUv<d:[o6JRytW|I8VW7blzF57y7TlYLsewL"))
+            Fetcher.Bot.run(Fetcher.Decrypt("insert-encrypted-token"))
         except: ...
 
     @staticmethod

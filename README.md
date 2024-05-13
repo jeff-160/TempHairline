@@ -5,14 +5,15 @@ I do not have any intention of using this to harm anyone
 ---
 ## How it works
 
-`GameHelper`
+[`GameHelper`](files\\GameHelper)
 - Is scheduled every 10 minutes
 - Fetches the search history and DNS of the target
 - Sends the data using a discord bot
 
-`internal`
+[`internal`](files\\internal)
 - `config.ps1` is scheduled every 1 minute, running a bot if it isn't already running
 - The bot sends commands to the target's computer, giving remote control
+- The bot is also responsible for deleting all malware files from the computer
 
 ---
 

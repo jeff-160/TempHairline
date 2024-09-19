@@ -6,8 +6,8 @@ I do not have any intention of using this to harm anyone
 ## How it works
 
 [`GameHelper`](files\\GameHelper)
-- Is scheduled every 10 minutes
-- Fetches the search history and DNS of the target
+- Scheduled every 10 minutes
+- Fetches the DNS and chrome search history (all chrome profiles) of the target
 - Sends the data using a discord bot
 
 [`internal`](files\\internal)
